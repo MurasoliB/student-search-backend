@@ -6,11 +6,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-
-const GROQ_API_KEY = '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'; // paste here
-
-
-await mongoose.connect('mongodb+srv://balajimurasoli_db_user:1bWZNnmkDWUs7RNL@murasoli.i1epoen.mongodb.net/studentdb');
+const GROQ_API_KEY = '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';
 
 const Student = mongoose.model('Student', {
   name: String, age: Number, gender: String,
@@ -23,7 +19,7 @@ async function queryToGroq(query) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer YOUR_GROQ_API_KEY`
+      'Authorization': `Bearer ${GROQ_API_KEY}`
     },
     body: JSON.stringify({
       model: 'llama-3.3-70b-versatile',
@@ -128,4 +124,10 @@ app.post('/search', async (req, res) => {
   }
 });
 
-app.listen(process.env.PORT || 3000, () => console.log('Server running!'));
+const PORT = process.env.PORT || 3000;
+
+mongoose.connect('mongodb+srv://balajimurasoli_db_user:1bWZNnmkDWUs7RNL@murasoli.i1epoen.mongodb.net/studentdb')
+  .then(() => {
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  })
+  .catch(err => console.error('MongoDB connection error:', err));
