@@ -6,7 +6,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const GROQ_API_KEY = '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';
+const GROQ_API_KEY = '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';
 
 const Student = mongoose.model('Student', {
   name: String, age: Number, gender: String,
