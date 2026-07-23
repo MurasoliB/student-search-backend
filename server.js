@@ -1,12 +1,13 @@
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-const GROQ_API_KEY = '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';
+const GROQ_API_KEY = process.env.GROQ_API_KEY;
 
 const Student = mongoose.model('Student', {
   name: String, age: Number, gender: String,
@@ -126,7 +127,7 @@ app.post('/search', async (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 
-mongoose.connect('mongodb+srv://balajimurasoli_db_user:1bWZNnmkDWUs7RNL@murasoli.i1epoen.mongodb.net/studentdb')
+mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   })
